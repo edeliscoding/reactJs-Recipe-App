@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { recipeData } from "../data/tempDetails";
+// import { recipeData } from "../data/tempDetails";
 import { Link } from "react-router-dom";
 
 class SingleRecipe extends Component {
@@ -7,10 +7,27 @@ class SingleRecipe extends Component {
     super(props);
     const id = this.props.match.params.id;
     this.state = {
-      recipe: recipeData,
+      recipe: {},
       id: id,
-      loading: false
+      loading: true
     };
+  }
+
+  async componentDidMount() {
+    const url = `https://www.food2fork.com/api/get?key=${
+      process.env.REACT_APP_API_KEY
+    }&rId=${this.state.id}`;
+    try {
+      const response = await fetch(url);
+      const responseData = await response.json();
+      // console.log(responseData);
+      this.setState({
+        recipe: responseData.recipe,
+        loading: false
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -75,10 +92,10 @@ class SingleRecipe extends Component {
               recipe url
             </a>
             <ul className="list-group mt-4">
-              <h2 className="mt-3 mb-4">ingriedients</h2>
+              <h2 className="mt-3 mb-4">ingredients</h2>
               {ingredients.map((item, index) => {
                 return (
-                  <li class={index} className="list-group-item text-slanted">
+                  <li key={index} className="list-group-item text-slanted">
                     {item}
                   </li>
                 );
