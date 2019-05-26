@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({ children, title, styleClass }) => {
+export default function Header({ children, title, styleClass }) {
   return (
     <header>
       <div className="container-fluid">
@@ -15,11 +15,9 @@ const Header = ({ children, title, styleClass }) => {
       </div>
     </header>
   );
-};
+}
 
 Header.defaultProps = {
   title: "default title",
   styleClass: "header-hero"
 };
-
-export default Header;
